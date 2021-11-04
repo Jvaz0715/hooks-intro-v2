@@ -2,8 +2,6 @@ import React from "react";
 import CustomHooksUsingObjectFormat from "./hooks/inputHooksObjectForm";
 import "./App.css";
 
-
-
 function App() {
   /*
     because the spread operator inside the html render renders all properties of our hooks and some
