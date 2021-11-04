@@ -1,118 +1,35 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-import Spinner from "./components/Spinner/Spinner";
+import React, {useState, useEffect, useRef} from 'react';
 
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [singleUser, setSingleUser] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState("");
 
-  // todos
-  const [searchTodo, setSearchTodo] = useState('');
-  
-  const [showTodo, setShowTodo] = useState(null);
-  const [isSearching, setIsSearching] = useState(false)
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    fetchAllUsers();
-  }, []); //array will ask it to call it once
+    console.log(value);
+  }, [value]);
 
-  async function fetchSingleUser(number) {
-    setIsLoading(true);
-    try {
-      let result = await axios.get(`https://jsonplaceholder.typicode.com/users/${number}`);
-      // console.log(result.data)
-      setIsLoading(false)
-      setSingleUser(result.data)
-    } catch(e) {
-      setIsLoading(false)
-      console.log(e)
-    }
+  function submit() {
+    console.log(inputRef.current.value)
   }
-
-  async function fetchAllUsers() {
-    try {
-      let results = await axios.get("https://jsonplaceholder.typicode.com/users");
-
-      // console.log(results.data)
-      setUser(results.data)
-    } catch(e) {
-      console.log(e);
-    }
-  };
-
-  async function handleSearchTodo() {
-    try{
-      let result = await axios.get(`https://jsonplaceholder.typicode.com/todos/${searchTodo}`);
-      setShowTodo(result.data)
-      setIsSearching(false)
-      setSearchTodo("")
-    } catch(e){
-      console.log(e)
-    }
-  }
-
-  function fetchTodo() {
-    if(!searchTodo) {
-      return;
-    }
-
-    setIsSearching(true);
-  };
-
-  useEffect(() => {
-    if(!searchTodo) {
-      return;
-    }
-
-    handleSearchTodo()
-  },[isSearching]);
-
-  if(!user) {
-    return <Spinner />
-  };
 
   return (
-    <div className="app">
-      <p>Single User</p>
-      <div>
+    <div className="App">
+      <div className="input-div">
         <input 
           type="text"
-          // value={singleUser}
-          onChange={(e) => setSingleUser(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
         />
-        <button onClick={() => fetchSingleUser(singleUser)}>Search User</button>
-
-        {isLoading ? (
-            <div>...loading</div>
-          ) : (
-            <div>
-              User Fullname: {singleUser.name}
-            </div>
-        )}
-        <hr/>
-        <p>Users</p>
-        <ul>
-          {user.map((user) => {
-            return <li key={user.id}>{user.name}</li>
-          })}
-        </ul>
-        <hr />
+        <button>Submit</button>
+        <input 
+          type="text"
+          ref={inputRef}
+        />
+        <button onClick={submit}>Submit</button>
       </div>
-
-      <div>
-        <p>Todos</p>
-          <input
-            type="text"
-            onChange={(e) => setSearchTodo(e.target.value)}
-          />
-          <button onClick={fetchTodo}>Search Todos</button>
-          {isSearching ? (<p>Fetching...</p>): (<p>{showTodo?.title}</p>)}
-      </div>
-
+      {value}
     </div>
   )
 }
