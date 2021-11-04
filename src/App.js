@@ -1,12 +1,26 @@
-import React from "react";
-import CustomHooksUsingArraysForm from "./hooks/inputHooks";
+import React, { useState } from "react";
+
 import "./App.css";
 
+function CustomHooksUsingObjectFormat(initialState) {
+  const [value, setValue] = useState(initialState);
+
+  function onChange(e) {
+    setValue(e.target.value);
+  };
+
+  function clearInput() {
+    setValue("");
+  }
+
+  return {value, onChange, clearInput}
+};
+
 function App() {
-  const [firstName, firstNameOnChange, clearFirstNameInput] = CustomHooksUsingArraysForm("");
-  const [lastName, lastNameOnChange, clearLastNameInput] = CustomHooksUsingArraysForm("");
-  const [email, emailOnChange, clearEmailInput] = CustomHooksUsingArraysForm("");
-  const [telephone, telephoneOnChange, clearTelephoneInput] = CustomHooksUsingArraysForm("");
+  const firstName = CustomHooksUsingObjectFormat("");
+  const lastName = CustomHooksUsingObjectFormat("");
+  const email = CustomHooksUsingObjectFormat("");
+  const telephone = CustomHooksUsingObjectFormat("");
 
   function handleOnSubmit(e) {
     e.preventDefault();
@@ -14,10 +28,11 @@ function App() {
     console.log(lastName)
     console.log(email)
     console.log(telephone)
-    clearFirstNameInput()
-    clearLastNameInput()
-    clearEmailInput()
-    clearTelephoneInput()
+    firstName.clearInput()
+    lastName.clearInput()
+    email.clearInput()
+    telephone.clearInput()
+
   }
 
   return (
@@ -26,30 +41,25 @@ function App() {
         <input 
           type="text" 
           placeholder="first name"
-          value={firstName}
-          onChange={(e) => firstNameOnChange(e)}
+          {...firstName}
         />
         <br />
         <input 
           type="text" 
           placeholder="last name"
-          value={lastName}
-          onChange={(e) => lastNameOnChange(e)}
+          {...lastName}
         />
         <br />
         <input 
           type="email" 
           placeholder="email"
-          value={email}
-          onChange={(e) => emailOnChange(e)}
+          {...email}
         />
         <br />
         <input 
           type="tel" 
           placeholder="enter contact number" 
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-          value={telephone}
-          onChange={(e) => telephoneOnChange(e)}
+          {...telephone}
         />
         <br />
         <button type="Submit">Submit</button>

@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 function CustomHooksUsingArraysForm(initialState) {
    //  this becomes a defacto "factory of functions" for each input to use
    /* 
