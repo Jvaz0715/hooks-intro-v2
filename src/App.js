@@ -1,20 +1,6 @@
-import React, {useState} from 'react';
-
+import React from "react";
+import CustomHooksUsingArraysForm from "./hooks/inputHooks";
 import "./App.css";
-
-function CustomHooksUsingArraysForm(initialState) {
-  const [value, setValue] = useState(initialState);
-  
-  function onChange(e) {
-    setValue(e.target.value)
-  };
-
-  function clearInput() {
-    setValue("");
-  }
-
-  return [value, onChange, clearInput];
-}
 
 function App() {
   const [firstName, firstNameOnChange, clearFirstNameInput] = CustomHooksUsingArraysForm("");
